@@ -96,7 +96,7 @@ body{
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.3s ease; /* Smooth hover effect */
+            cursor: pointer;
         }
         .grid-item:hover {
             transform: scale(1.1);
@@ -114,4 +114,5 @@ body{
                 font-size: 1rem; /* Smaller text for mobile */
                 padding: 15px;
             }
+
         }
