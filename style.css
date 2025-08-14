@@ -75,7 +75,7 @@ body{
 /* General styling for the container */
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 columns on desktop */
+            grid-template-columns: repeat(4, 1fr); /* 3 columns on desktop */
             gap: 50px;
             padding: 20px;
             max-width: 1200px;
@@ -96,6 +96,7 @@ body{
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: transform 0.3s ease; /* Smooth hover effect */
             cursor: pointer;
         }
         .grid-item:hover {
@@ -116,3 +117,4 @@ body{
             }
 
         }
+
