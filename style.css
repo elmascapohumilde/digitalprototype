@@ -1,4 +1,52 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo+Play:wght@200..1000&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
+@keyframes gridHover {
+    0% {
+        transform: scale(1) rotate(0deg);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    50% {
+        transform: scale(1.1) rotate(5deg);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    100% {
+        transform: scale(1.05) rotate(0deg);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    }
+}
+@keyframes gridFlipHover {
+    0% {
+        transform: rotateY(0deg);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    50% {
+        transform: rotateY(180deg);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    99% {
+        transform: rotateY(360deg);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    100% {
+        transform: rotateY(360deg);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    99% {
+        #flashcards-front .default-img, #flashcards-back .default-img {
+            opacity: 1;
+        }
+        #flashcards-front .hover-img, #flashcards-back .hover-img {
+            opacity: 0;
+        }
+    }
+    100% {
+        #flashcards-front .default-img, #flashcards-back .default-img {
+            opacity: 0;
+        }
+        #flashcards-front .hover-img, #flashcards-back .hover-img {
+            opacity: 1;
+        }
+    }
+}
 .title{
     font-family: "Cairo Play", sans-serif;
     font-weight: auto;
@@ -6,9 +54,9 @@
     margin-bottom: 2%;
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/Book.jpg');
     background-size: cover;
-    border-top: 100px#252424;
+    border-top: 100px black;
     background-repeat: no-repeat;
-    border-bottom: 100px#252424;
+    border-bottom: 100px black;
     height: 25vh;
     color:azure;
     display: flex;
@@ -30,7 +78,7 @@
     font-weight: 400;
     font-style: normal;
     cursor:pointer;
-    color:rgb(48, 47, 47);
+    color:rgb(0, 0, 0.5);
     text-shadow:1px 1px 1px black;
 }
 .header {
@@ -42,7 +90,7 @@
     padding: 5px 10%;
 }
 .header .logo img{
-    height: 70px;
+    height: auto;
     width: auto;
     transition: all 0.3s;
 }
@@ -69,56 +117,160 @@
     color: black;
 }
 body{
-    background-color: #0EEBE8;
+    background-color:cornflowerblue;
 }
-/* General styling for the container */
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Changed to 2 columns */
-    gap: 20px;
-    padding: 20px;
-    max-width: 1200px;
-    margin-left: 10%;
-}
-.grid-item {
-    background-color: azure;
-    padding: 20px;
-    text-align: center;
-    border-radius: 8px;
-    font-family: "Crimson Text", sans-serif;
-    font-size: 1.2rem;
-    aspect-ratio: 2 / 1;
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s ease;
-    cursor: pointer;
-    border: 1px solid #000000;
-}
-.grid-item:hover {
-    transform: scale(1.05);
-}
-.grid-item img {
-    max-width: 50px;
-    height: auto;
-    margin-bottom: 10px;
-}
-a{
-    text-decoration: none;
-    color: #252424;
-}
-/* Mobile responsiveness: Stack vertically */
-@media (max-width: 600px) {
-/* Grid Adjustments */
-    .grid-container {
-        grid-template-columns: 1fr; /* Stack vertically on mobile */
-        gap: 15px;
-    }
-    .grid-item {
-        aspect-ratio: 3 / 2; /* Slightly less wide on mobile for better fit */
-        font-size: 1rem; /* Smaller text for mobile */
-        padding: 15px;
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-}
+        .grid-item {
+            background-color: azure;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            font-family: Arial, sans-serif;
+            font-size: 1.2rem;
+            color: black;
+            aspect-ratio: 2 / 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border: 1px solid black;
+        }
+        .grid-item:hover {
+            transform: scale(1.05);
+        }
+        .grid-item img {
+            max-width: 50px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        .section {
+            display: none;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: azure;
+            border: 1px solid black;
+            border-radius: 8px;
+            font-family: Arial, sans-serif;
+        }
+        .section.active {
+            display: block;
+        }
+        /* Phrase Builder */
+        .builder-words {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .word {
+            padding: 8px 12px;
+            background-color: #e0e7ff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: move;
+        }
+        .builder-target {
+            min-height: 40px;
+            background-color: #fff;
+            border: 2px dashed #ccc;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        .builder-feedback {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #333;
+        }
+        .builder-feedback.correct {
+            color: green;
+        }
+        .builder-feedback.incorrect {
+            color: red;
+        }
+        /* Phrasebook */
+        .phrase-item {
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .phrase-item button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .phrase-item button:hover {
+            background-color: #0056b3;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: black;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+            }
+            .site-title {
+                font-size: 2.5rem;
+                text-align: center;
+                width: 100%;
+            }
+            nav {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            .grid-container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            .grid-item {
+                aspect-ratio: 3 / 2;
+                font-size: 1rem;
+                padding: 15px;
+            }
+            .section {
+                padding: 15px;
+            }
+            .phrase-item {
+                font-size: 0.9rem;
+            }
+            .builder-words, .builder-target {
+                font-size: 0.9rem;
+            }
+            .roleplay-options button {
+                font-size: 0.9rem;
+            }
+        }

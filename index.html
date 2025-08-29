@@ -13,50 +13,271 @@
             <img src="images/Logo.svg" alt="Web Page Logo">
             <h1>E.A.H</h1>
         </div>
-    <nav class="navbar">
-        <ul>
-            <li><a href="">About us</a></li>
-        </ul>
-    </nav>
     </header>
     <div class="title">
         <h1>Welcome to the English Abroad Hub</h1>
     </div>
     <div class="grid-container">
-        <div class="grid-item">
+        <div class="grid-item builder-btn">
+            <img src="images/Conversation.png" alt="Puzzle Icon">
             <h1>
                 <strong>
-                    Conversation Simulator
+                    Phrase Builder
                 </strong>
             </h1>
-            <img src="images/Conversation.png" alt="Conversation Icon">
         </div>
-        <a href="flashcards.html">
-            <div class="grid-item">
-                <h1>
-                    <strong>
-                        Flashcards
-                    </strong>
-                    <img src="images/Flashcards.png">
-                </h1>
-            </div>
-        </a>
-        <div class="grid-item">
-            <h1>
-                <strong>
-                    Resource Library
-                </strong>
-                <img src="images/Library.png">
-            </h1>
-        </div>
-        <div class="grid-item">
+        <div class="grid-item roleplay-btn">
+            <img src="images/Role-Play.png" height="50px" width="50px" alt="Chat Icon">
             <h1>
                 <strong>
                     Scenario Role-Play
                 </strong>
-                <img src="images/Role-Play.png">
+            </h1>
+        </div>
+        <div class="grid-item phrasebook-btn">
+            <img src="images/Library.png" height="50px" width="50px" alt="Book Icon">
+            <h1>
+                <strong>
+                    Travel Phrasebook
+                </strong>
             </h1>
         </div>
     </div>
+    <div class="section builder-section">
+        <h2>Phrase Builder</h2>
+        <div class="builder-words"></div>
+        <div class="builder-target">Drag words here</div>
+        <button onclick="checkPhrase()">Check</button>
+    </div>
+    <div class="section roleplay-section">
+        <h2>Scenario Role-Play</h2>
+        <div class="roleplay-scenario"></div>
+        <div class="roleplay-options"></div>
+    </div>
+    <div class="section phrasebook-section">
+        <h2>Travel Phrasebook</h2>
+        <input type="text" class="phrasebook-search" placeholder="Search phrases (e.g., airport)" oninput="searchPhrasebook()">
+        <div class="phrasebook-content"></div>
+    </div>
+        <footer>
+        Icons by <a href="https://www.flaticon.com" target="_blank">Flaticon</a>
+    </footer>
 </body>
 </html>
+<script>
+        // Hide all sections
+        function hideSections() {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+        }
+
+        // Phrase Builder
+        const phrases = [
+            { correct: "Can I have a coffee?", words: ["Can", "I", "have", "a", "coffee", "please", "?"] },
+            { correct: "Where is the train station?", words: ["Where", "is", "the", "train", "station", "?"] }
+        ];
+        let currentPhrase = 0;
+        let draggedPhrase = [];
+
+        const dragoverHandler = (e) => e.preventDefault();
+        const dropHandler = (e) => {
+            e.preventDefault();
+            const word = e.dataTransfer.getData('text');
+            draggedPhrase.push(word);
+            e.target.textContent = draggedPhrase.join(' ');
+        };
+
+        function showPhraseBuilder() {
+            hideSections();
+            document.querySelector('.builder-section').classList.add('active');
+            const wordsDiv = document.querySelector('.builder-words');
+            const target = document.querySelector('.builder-target');
+            const feedback = document.querySelector('.builder-feedback');
+            wordsDiv.innerHTML = '';
+            target.innerHTML = 'Drag words here';
+            feedback.textContent = '';
+            draggedPhrase = [];
+            phrases[currentPhrase].words.forEach(word => {
+                const div = document.createElement('div');
+                div.className = 'word';
+                div.draggable = true;
+                div.textContent = word;
+                div.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text', word);
+                });
+                wordsDiv.appendChild(div);
+            });
+            target.removeEventListener('dragover', dragoverHandler);
+            target.removeEventListener('drop', dropHandler);
+            target.addEventListener('dragover', dragoverHandler);
+            target.addEventListener('drop', dropHandler);
+        }
+
+        function checkPhrase() {
+            const userPhrase = draggedPhrase.join(' ');
+            const feedback = document.querySelector('.builder-feedback');
+            if (userPhrase === phrases[currentPhrase].correct) {
+                feedback.textContent = 'Correct!';
+                feedback.className = 'builder-feedback correct';
+                currentPhrase = (currentPhrase + 1) % phrases.length;
+                setTimeout(showPhraseBuilder, 1000);
+            } else {
+                feedback.textContent = 'Incorrect, try again!';
+                feedback.className = 'builder-feedback incorrect';
+            }
+        }
+
+        // Scenario Role-Play
+        const scenarios = [
+            {
+                scenario: "You're at a restaurant and want to order food. What do you say?",
+                options: [
+                    { text: "Can I have a coffee, please?", correct: false },
+                    { text: "Can I see the menu, please?", correct: true },
+                    { text: "Where is the bathroom?", correct: false }
+                ]
+            },
+            {
+                scenario: "You're lost in a city and need directions to the train station. What do you say?",
+                options: [
+                    { text: "Excuse me, where is the train station?", correct: true },
+                    { text: "Can you take me to the airport?", correct: false },
+                    { text: "I want a coffee.", correct: false }
+                ]
+            },
+            {
+                scenario: "You are shopping and want to know the cost of a product. What do you say?",
+                options: [
+                    { text: "Where is the restroom?", correct: false },
+                    { text: "How much does this product cost?", correct: true },
+                    { text: "One coffee, please.", correct: false }
+                ]
+            },
+            {
+                scenario: "Someone thanks you. How do you respond?",
+                options: [
+                    { text: "You're welcome.", correct: true },
+                    { text: "Nice to meet you", correct: false },
+                    { text: "Good evening too.", correct: false }
+                ]
+            },
+            {
+                scenario: "Someone needs your help for something. What do you say?",
+                options: [
+                    {text:"You don't need to.", correct:false},
+                    {text:"You're welcome", correct:false},
+                    {text:"How can I Help You?", correct:true}
+                ]
+            },
+            {
+                scenario: "You ask someone you liked to go on a date. What do you say?",
+                options:[
+                    {text:"How can I help you?", correct:false},
+                    {text:"I like you. Would you like to go on a date?", correct:true},
+                    {text:"Do you need something?", correct:false}
+                ]
+            },
+            {
+                scenario: "You don't know the time and you need to ask. What do you say?",
+                options:[
+                    {text:"Excuse me, do you know where the train station is?", correct:false},
+                    {text:"Excuse me, is this the city's downtown?", correct:false},
+                    {text:"Excuse me, can you tell me what time it is? ", correct:true}
+                ]
+            }
+        ];
+        let currentScenario = 0;
+
+        function showRolePlay() {
+            console.log('Role-Play section activated'); // Debug log
+            hideSections();
+            document.querySelector('.roleplay-section').classList.add('active');
+            const scenarioDiv = document.querySelector('.roleplay-scenario');
+            const optionsDiv = document.querySelector('.roleplay-options');
+            scenarioDiv.textContent = scenarios[currentScenario].scenario;
+            optionsDiv.innerHTML = '';
+            scenarios[currentScenario].options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.textContent = opt.text;
+                btn.onclick = () => {
+                    if (opt.correct) {
+                        currentScenario = (currentScenario + 1) % scenarios.length;
+                        setTimeout(showRolePlay, 1000);
+                    }
+                };
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        // Travel Phrasebook
+        const phrasebook = [
+            { category: "Travel", phrase: "Excuse me, where is the airport?", tip: "Use 'excuse me' to be polite." },
+            { category: "Restaurant", phrase: "Can I have the menu, please?", tip: "Polite way to request." },
+            { category: "Price", phrase: "How much does this product cost?", tip: "'How Much' is typically used for prices." },
+            { category: "Thanking back", phrase: "You are welcome.", tip: "Must use when someone thanks you." },
+            { category:"Giving help", phrase:"How can I help you?", tip:"Usual when helping someone."},
+            { category:"Time", phrase:"Can you tell me what time it is?", tip:"You can change 'can you' with 'do you know?'"}
+        ];
+        let learned = JSON.parse(localStorage.getItem('learned')) || [];
+
+        function showPhrasebook() {
+            hideSections();
+            document.querySelector('.phrasebook-section').classList.add('active');
+            renderPhrasebook(phrasebook);
+        }
+
+        function renderPhrasebook(items) {
+            const content = document.querySelector('.phrasebook-content');
+            content.innerHTML = '';
+            items.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'phrase-item';
+                div.innerHTML = `<strong>${item.category}: ${item.phrase}</strong><br>Tip: ${item.tip}
+                                <button onclick="speak('${item.phrase}')">Speak</button>
+                                <button onclick="markLearned(${index})">${learned.includes(item.phrase) ? 'Learned' : 'Mark Learned'}</button>`;
+                content.appendChild(div);
+            });
+        }
+
+        function searchPhrasebook() {
+            const search = document.querySelector('.phrasebook-search').value.toLowerCase();
+            const filtered = phrasebook.filter(item => 
+                item.phrase.toLowerCase().includes(search) || item.tip.toLowerCase().includes(search) || item.category.toLowerCase().includes(search)
+            );
+            renderPhrasebook(filtered);
+        }
+
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function markLearned(index) {
+            const phrase = phrasebook[index].phrase;
+            if (!learned.includes(phrase)) {
+                learned.push(phrase);
+                localStorage.setItem('learned', JSON.stringify(learned));
+                renderPhrasebook(phrasebook);
+            }
+        }
+
+        // Attach click events to grid items
+        document.querySelectorAll('.grid-container .grid-item').forEach((item, index) => {
+            item.addEventListener('click', () => {
+                if (index === 0) {
+                    console.log('Phrase Builder clicked'); // Debug
+                    showPhraseBuilder();
+                }
+                else if (index === 1) {
+                    console.log('Scenario Role-Play clicked'); // Debug
+                    showRolePlay();
+                }
+                else if (index === 2) {
+                    console.log('Phrasebook clicked'); // Debug
+                    showPhrasebook();
+                }
+            });
+        });
+</script>
