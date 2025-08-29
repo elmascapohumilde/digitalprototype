@@ -166,38 +166,6 @@ body{
         .section.active {
             display: block;
         }
-        /* Phrase Builder */
-        .builder-words {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .word {
-            padding: 8px 12px;
-            background-color: #e0e7ff;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            cursor: move;
-        }
-        .builder-target {
-            min-height: 40px;
-            background-color: #fff;
-            border: 2px dashed #ccc;
-            padding: 10px;
-            margin-bottom: 15px;
-        }
-        .builder-feedback {
-            margin-top: 10px;
-            font-size: 1rem;
-            color: #333;
-        }
-        .builder-feedback.correct {
-            color: green;
-        }
-        .builder-feedback.incorrect {
-            color: red;
-        }
         /* Phrasebook */
         .phrase-item {
             background-color: #fff;

@@ -22,7 +22,7 @@
             <img src="images/Conversation.png" alt="Puzzle Icon">
             <h1>
                 <strong>
-                    Phrase Builder
+                    Choose on the right.
                 </strong>
             </h1>
         </div>
@@ -42,12 +42,6 @@
                 </strong>
             </h1>
         </div>
-    </div>
-    <div class="section builder-section">
-        <h2>Phrase Builder</h2>
-        <div class="builder-words"></div>
-        <div class="builder-target">Drag words here</div>
-        <button onclick="checkPhrase()">Check</button>
     </div>
     <div class="section roleplay-section">
         <h2>Scenario Role-Play</h2>
@@ -71,63 +65,6 @@
                 section.classList.remove('active');
             });
         }
-
-        // Phrase Builder
-        const phrases = [
-            { correct: "Can I have a coffee?", words: ["Can", "I", "have", "a", "coffee", "please", "?"] },
-            { correct: "Where is the train station?", words: ["Where", "is", "the", "train", "station", "?"] }
-        ];
-        let currentPhrase = 0;
-        let draggedPhrase = [];
-
-        const dragoverHandler = (e) => e.preventDefault();
-        const dropHandler = (e) => {
-            e.preventDefault();
-            const word = e.dataTransfer.getData('text');
-            draggedPhrase.push(word);
-            e.target.textContent = draggedPhrase.join(' ');
-        };
-
-        function showPhraseBuilder() {
-            hideSections();
-            document.querySelector('.builder-section').classList.add('active');
-            const wordsDiv = document.querySelector('.builder-words');
-            const target = document.querySelector('.builder-target');
-            const feedback = document.querySelector('.builder-feedback');
-            wordsDiv.innerHTML = '';
-            target.innerHTML = 'Drag words here';
-            feedback.textContent = '';
-            draggedPhrase = [];
-            phrases[currentPhrase].words.forEach(word => {
-                const div = document.createElement('div');
-                div.className = 'word';
-                div.draggable = true;
-                div.textContent = word;
-                div.addEventListener('dragstart', (e) => {
-                    e.dataTransfer.setData('text', word);
-                });
-                wordsDiv.appendChild(div);
-            });
-            target.removeEventListener('dragover', dragoverHandler);
-            target.removeEventListener('drop', dropHandler);
-            target.addEventListener('dragover', dragoverHandler);
-            target.addEventListener('drop', dropHandler);
-        }
-
-        function checkPhrase() {
-            const userPhrase = draggedPhrase.join(' ');
-            const feedback = document.querySelector('.builder-feedback');
-            if (userPhrase === phrases[currentPhrase].correct) {
-                feedback.textContent = 'Correct!';
-                feedback.className = 'builder-feedback correct';
-                currentPhrase = (currentPhrase + 1) % phrases.length;
-                setTimeout(showPhraseBuilder, 1000);
-            } else {
-                feedback.textContent = 'Incorrect, try again!';
-                feedback.className = 'builder-feedback incorrect';
-            }
-        }
-
         // Scenario Role-Play
         const scenarios = [
             {
